@@ -117,6 +117,7 @@ else:
 
         print("JAVA установщик скачан. Устанавливаем JAVA...")
         try:
+            os.chmod(str(pathlib.Path().absolute()) + "/installjava", 0o775)
             subprocess.call("/usr/bin/chmod +x installjava")
             subprocess.call("./installjava")
         except:
