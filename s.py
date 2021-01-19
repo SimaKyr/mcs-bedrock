@@ -8,6 +8,7 @@ import urllib.request
 import ssl
 import requests
 import json
+import pathlib
 
 ssl._create_default_https_context = ssl._create_unverified_context
 ipAddressUrl = 'https://mcsimakyr-default-rtdb.europe-west1.firebasedatabase.app/ip-address.json'
@@ -89,8 +90,10 @@ def main():
     if(dbg):
         print("Запуск...")
     try:
-        subprocess.call('/data/data/com.termux/files/usr/share/jdk8/bin/java -jar geysermc.jar')
+        prg = '/data/data/com.termux/files/usr/share/jdk8/bin/java -jar ' + str(pathlib.Path().absolute()) +'/geysermc.jar'
+        subprocess.call(prg)
     except:
+        print('Наверное это андроид!')
         subprocess.call("java -jar geysermc.jar")
 if(os.path.exists(stPgFile)):
     if(dbg):
@@ -113,7 +116,7 @@ else:
 
         print("JAVA установщик скачан. Устанавливаем JAVA...")
         try:
-            subprocess.call("chmod +x installjava")
+            subprocess.call("/usr/bin/chmod +x installjava")
             subprocess.call("./installjava")
         except:
             print('Неудача. Наверное это Windows.')
