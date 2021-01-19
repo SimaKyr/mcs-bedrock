@@ -91,9 +91,10 @@ def main():
         print("Запуск...")
     try:
         prg = '/data/data/com.termux/files/usr/share/jdk8/bin/java -jar ' + str(pathlib.Path().absolute()) +'/geysermc.jar'
+        print(prg)
         subprocess.call(prg)
     except:
-        print('Наверное это андроид!')
+        print('Наверное это не Termux!')
         subprocess.call("java -jar geysermc.jar")
 if(os.path.exists(stPgFile)):
     if(dbg):
