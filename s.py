@@ -49,7 +49,7 @@ if(len(sys.argv) == 2):
         if(i == '2'):
             dbg = True
             print("Вкючили режим отладки! Продолжаем обычное выполнение...")
-urlGC = 'http://ci.nukkitx.com/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar'
+urlGC = 'https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar'
 
 stPg = False
 
@@ -88,7 +88,10 @@ def main():
     print('Подробнее на сайте: https://simakyr.github.io/mcs/')
     if(dbg):
         print("Запуск...")
-    subprocess.call("java -jar geysermc.jar")
+    try:
+        subprocess.call('/data/data/com.termux/files/usr/share/jdk8/bin/java -jar geysermc.jar')
+    except:
+        subprocess.call("java -jar geysermc.jar")
 if(os.path.exists(stPgFile)):
     if(dbg):
         print("Программа уже установлена! Отлично!")
@@ -110,6 +113,7 @@ else:
 
         print("JAVA установщик скачан. Устанавливаем JAVA...")
         try:
+            subprocess.call("chmod +x installjava")
             subprocess.call("./installjava")
         except:
             print('Неудача. Наверное это Windows.')
@@ -130,11 +134,12 @@ else:
                     done = int(50 * dl / total_length)
                     sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50-done)) )
                     sys.stdout.flush()
+        f.close()
         print("Установка успешно завершена!")
         f = open(stPgFile, "a")
         f.write("Привет! Этот файл не удалять \(-:")
         f.close()
-        print("Для повторного запуска используй")
+        print("Для повторного запуска используй:")
         print("py s.py")
         print("Перезапуск...")
         main()
