@@ -9,7 +9,12 @@ import ssl
 import requests
 import json
 import pathlib
+from termcolor import colored
 
+def say(text):
+    print(colored(text, 'green', attrs=['bold']))
+def error(text):
+    print(colored(text, 'red', attrs=['bold']))
 ssl._create_default_https_context = ssl._create_unverified_context
 ipAddressUrl = 'https://mcsimakyr-default-rtdb.europe-west1.firebasedatabase.app/ip-address.json'
 def getAddress():
@@ -26,9 +31,11 @@ def decB64(i):
 configFile = "YmVkcm9jazoKICBhZGRyZXNzOiAwLjAuMC4wCiAgcG9ydDogMTkxMzIKICBjbG9uZS1yZW1vdGUtcG9ydDogZmFsc2UKICBtb3RkMTogIlBST1NUTyBTSU1BS1lSIgogIG1vdGQyOiAiU0lNQUtZUiBUWVQiCiAgc2VydmVyLW5hbWU6ICJUWVQgTkVUIFNJTUFLWVJBIgpyZW1vdGU6CiAgYWRkcmVzczogYXV0bwogIHBvcnQ6IDI1NTY1CiAgYXV0aC10eXBlOiBvZmZsaW5lCmNvbW1hbmQtc3VnZ2VzdGlvbnM6IHRydWUKcGFzc3Rocm91Z2gtbW90ZDogZmFsc2UKcGFzc3Rocm91Z2gtcHJvdG9jb2wtbmFtZTogZmFsc2UKcGFzc3Rocm91Z2gtcGxheWVyLWNvdW50czogdHJ1ZQpsZWdhY3ktcGluZy1wYXNzdGhyb3VnaDogZmFsc2UKcGluZy1wYXNzdGhyb3VnaC1pbnRlcnZhbDogMwptYXgtcGxheWVyczogOTk5CmRlYnVnLW1vZGU6IGZhbHNlCmdlbmVyYWwtdGhyZWFkLXBvb2w6IDMyCmFsbG93LXRoaXJkLXBhcnR5LWNhcGVzOiB0cnVlCmFsbG93LXRoaXJkLXBhcnR5LWVhcnM6IGZhbHNlCnNob3ctY29vbGRvd246IHRydWUKY2FjaGUtY2h1bmtzOiB0cnVlCmNhY2hlLWltYWdlczogMAphYm92ZS1iZWRyb2NrLW5ldGhlci1idWlsZGluZzogZmFsc2UKZm9yY2UtcmVzb3VyY2UtcGFja3M6IHRydWUKeGJveC1hY2hpZXZlbWVudHMtZW5hYmxlZDogZmFsc2UKbWV0cmljczoKICBlbmFibGVkOiBmYWxzZQogIHV1aWQ6IDg1Zjk2MzcwLWNlNGQtNDhkYi1iNjhlLWUzZTI2Y2RlNDg4ZgpzY29yZWJvYXJkLXBhY2tldC10aHJlc2hvbGQ6IDIwCmVuYWJsZS1wcm94eS1jb25uZWN0aW9uczogZmFsc2UKdXNlLWFkYXB0ZXJzOiB0cnVlCgpjb25maWctdmVyc2lvbjogNA=="
 dbg = False
 
-print("Программа по подключению к серверу Майнкрафт")
-print("Создал:   SimaKyr.")
-print("\n")
+error("=============================================")
+say("Программа по подключению к серверу Майнкрафт")
+say("Создал:   SimaKyr.")
+say("Сайт: https://simakyr.github.io/mcs/")
+error("=============================================")
 
 stPgFile = 'installed_yn'
 def run_command(command):
@@ -38,18 +45,18 @@ def run_command(command):
     return iter(p.stdout.readline, b'')
 if(len(sys.argv) == 2):
     if(sys.argv[1] == "h"):
-        print("Привет! Что требуем:")
-        print("1 - Сброс параметров")
-        print("2 - Режим отладки")
-        print("\n")
+        say("Привет! Что требуем:")
+        say("1 - Сброс параметров")
+        say("2 - Режим отладки")
+        say("\n")
         i = str(input("Введите число:"))
         if(i == "1"):
             if(os.path.exists(stPgFile)):
               os.remove(stPgFile)
-            print("Сбросено! Продолжаем обычное выполнение...")
+            say("Сбросено! Продолжаем обычное выполнение...")
         if(i == '2'):
             dbg = True
-            print("Вкючили режим отладки! Продолжаем обычное выполнение...")
+            say("Вкючили режим отладки! Продолжаем обычное выполнение...")
 urlGC = 'https://ci.opencollab.dev/job/GeyserMC/job/Geyser/job/master/lastSuccessfulBuild/artifact/bootstrap/standalone/target/Geyser.jar'
 
 stPg = False
@@ -66,46 +73,48 @@ def split_host_port(string):
 
     return (host, port)
 def main():
-    print(logo)
-    print("Приветствую вас!")
+    print(colored(logo, 'blue', attrs=['blink']))
+    say("Приветствую вас!")
     if(dbg):
-        print("Проверяем установлена ли данная программа...")
-    #print("Введите адрес сервера MINECRAFT: JAVA EDITION.")
-    #print("Он должен выглядить так *.tcp.ngrok.io:*****")
+        say("Проверяем установлена ли данная программа...")
+    #say("Введите адрес сервера MINECRAFT: JAVA EDITION.")
+    #say("Он должен выглядить так *.tcp.ngrok.io:*****")
     #ip = str(input("Адрес сервера:"))
     ip = getAddress()
-    print("Адрес сервера:" + ip)
     if(dbg):
-        print("Запись новых параметров...")
+        say("Адрес сервера:" + ip)
+    if(dbg):
+        say("Запись новых параметров...")
     cfg = decB64(configFile)
     cfg = cfg.replace("auto", split_host_port(ip)[0]).replace("25565", split_host_port(ip)[1])
 
     f = open("config.yml", "w", encoding='utf-8')
     f.write(cfg)
     f.close()
-    print('=====================================================================')
-    print('Для подключения зайдите в MINECRAFT -> Играть -> Друзья -> TYT PROSTO')
-    print('=====================================================================')
-    print('Подробнее на сайте: https://simakyr.github.io/mcs/')
+    say('=====================================================================')
+    say('Для подключения зайдите в MINECRAFT -> Играть -> Друзья -> TYT PROSTO')
+    say('=====================================================================')
+    say('Подробнее на сайте: https://simakyr.github.io/mcs/')
     if(dbg):
-        print("Запуск...")
+        say("Запуск...")
     try:
-        prg = '/data/data/com.termux/files/usr/share/jdk8/bin/java -jar ' + str(pathlib.Path().absolute()) +'/geysermc.jar'
-        print(prg)
+        prg = './geysermc.sh'
+        # say(prg)
+        #subprocess.call(['java', '-jar', str(pathlib.Path().absolute()) + '/geyser.jar'])
         subprocess.call(prg)
     except:
-        print('Наверное это не Termux!')
+        error('Наверное это не Termux!')
         subprocess.call("java -jar geysermc.jar")
 if(os.path.exists(stPgFile)):
     if(dbg):
-        print("Программа уже установлена! Отлично!")
+        say("Программа уже установлена! Отлично!")
     stPg = True
     main()
 else:
     if(dbg):
-        print("Программа не установлена )-: Начинаем установку...")
+        error("Программа не установлена )-: Начинаем установку...")
 
-    print("Начием скачивать установщик JAVA...")
+    say("Начием скачивать установщик JAVA...")
     with urllib.request.urlopen('http://raw.githubusercontent.com/MasterDevX/java/master/installjava') as f:
         html = f.read().decode('utf-8')
         f = open("installjava", "w", encoding='utf-8')
@@ -115,13 +124,13 @@ else:
         #st = os.stat('installjava')
         #os.chmod('installjava', st.st_mode | os.stat.S_IEXEC)
 
-        print("JAVA установщик скачан. Устанавливаем JAVA...")
+        say("JAVA установщик скачан. Устанавливаем JAVA...")
         try:
             os.chmod(str(pathlib.Path().absolute()) + "/installjava", 0o775)
             subprocess.call("./installjava")
         except:
-            print('Неудача. Наверное это Windows.')
-        print("Скачиваем сервер GeyserMC...")
+            error('Неудача. Наверное это Windows.')
+        say("Скачиваем сервер GeyserMC...")
         file_name = "geysermc.jar"
         with open(file_name, "wb") as f:
             response = requests.get(urlGC, stream=True)
@@ -139,11 +148,19 @@ else:
                     sys.stdout.write("\r[%s%s]" % ('=' * done, ' ' * (50-done)) )
                     sys.stdout.flush()
         f.close()
-        print("Установка успешно завершена!")
+        say("Скачивание успешно завершено!")
+
+        say("Устанавливаем GeyserMC...")
+        f = open("geyser.sh", "w", encoding='utf-8')
+        f.write('#!/bin/bash\njava -jar geysermc.jar')
+        f.close()
+        os.chmod(str(pathlib.Path().absolute()) + "/geyser.sh", 0o775)
+        say("Установка GeyserMC завершена!")
+
         f = open(stPgFile, "a")
         f.write("Привет! Этот файл не удалять \(-:")
         f.close()
-        print("Для повторного запуска используй:")
-        print("py s.py")
-        print("Перезапуск...")
+        say("Для повторного запуска используй:")
+        error("./s")
+        say("Перезапуск...")
         main()
