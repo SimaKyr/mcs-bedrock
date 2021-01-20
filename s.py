@@ -152,7 +152,7 @@ else:
 
         say("Устанавливаем GeyserMC...")
         f = open("geyser.sh", "w", encoding='utf-8')
-        f.write('#!/bin/bash\njava -jar geysermc.jar')
+        f.write('#!/bin/bash\ntermux-chroot\njava -jar geysermc.jar')
         f.close()
         os.chmod(str(pathlib.Path().absolute()) + "/geyser.sh", 0o775)
         say("Установка GeyserMC завершена!")
